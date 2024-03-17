@@ -1,0 +1,69 @@
+local this = {}
+
+-- Simulated mission codes (replace with actual mission codes if needed)
+local MISSION_CODES = {
+  "10040",
+  "10041",
+  -- Add other mission codes here
+}
+
+-- Function to swap mission open/closed flags (assuming flags are stored in gvars)
+function this.SwapMissionFlags(missionCode1, missionCode2)
+  if not missionCode1 or not missionCode2 then
+    print("Error: Invalid mission codes provided")
+    return
+  end
+
+  local missionEnum1 = TppDefine.MISSION_ENUM[tostring(missionCode1)]
+  local missionEnum2 = TppDefine.MISSION_ENUM[tostring(missionCode2)]
+
+  if not missionEnum1 or not missionEnum2 then
+    print("Error: Mission codes not found in TppDefine.MISSION_ENUM")
+    return
+  end
+
+  -- Swap open flags (assuming flags are in gvars.str_missionOpenFlag)
+  local tempOpenFlag = gvars.str_missionOpenFlag[missionEnum1]
+  gvars.str_missionOpenFlag[missionEnum1] = gvars.str_missionOpenFlag[missionEnum2]
+  gvars.str_missionOpenFlag[missionEnum2] = tempOpenFlag
+
+  -- Similarly, swap cleared flags if applicable (replace with actual flag name)
+  -- gvars.str_missionClearedFlag[missionEnum1], gvars.str_missionClearedFlag[missionEnum2] = gvars.str_missionClearedFlag[missionEnum2], gvars.str_missionClearedFlag[missionEnum1]
+end
+
+-- Function to check if a mission is open (assuming flag is in gvars)
+function this.IsMissionOpen(missionCode)
+  local missionEnum = TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    return gvars.str_missionOpenFlag[missionEnum]
+  end
+  return false -- Mission not found or no open flag
+end
+
+-- Function to check if a mission is cleared (assuming flag is in gvars, modify name if needed)
+function this.IsMissionCleard(missionCode)
+  local missionEnum = TppDefine.MISSION_ENUM[tostring(missionCode)]
+  if missionEnum then
+    return gvars.str_missionClearedFlag[missionEnum]
+  end
+  return false -- Mission not found or no cleared flag
+end
+
+-- Simulate mission opening functionality (modify based on actual implementation)
+function this.MissionOpen(missionCode)
+  -- Implement your logic for opening a mission
+  print("Mission "..missionCode.." opened (simulation)")
+end
+
+-- Simulate mission closing functionality (modify based on actual implementation)
+function this.MissionClose(missionCode)
+  -- Implement your logic for closing a mission
+  print("Mission "..missionCode.." closed (simulation)")
+end
+
+-- Provide access to mission codes (replace if needed)
+function this.GetMissionCodes()
+  return MISSION_CODES
+end
+
+return this
